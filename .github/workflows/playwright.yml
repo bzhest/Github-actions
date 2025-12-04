@@ -1,11 +1,17 @@
 name: Playwright tests
-on: push
+on: 
+  pull_request:
+    types: [opened, edited, reopened]
+    branches:
+      - master
+    paths-ignore:
+      - '.github/workflows/*'
 jobs:
   print:
     runs-on: ubuntu-latest
     steps:
       - name: print context
-        run: echo "${{toJson(github)}}"
+        run: echo "${{toJson(github.event)}}"
   test:
     runs-on: ubuntu-latest
     steps:
