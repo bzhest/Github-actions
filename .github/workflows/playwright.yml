@@ -4,8 +4,6 @@ on:
     types: [opened, edited, reopened]
     branches:
       - master
-    paths-ignore:
-      - '.github/workflows/*'
 jobs:
   print:
     runs-on: ubuntu-latest
@@ -17,6 +15,11 @@ jobs:
     steps:
     - name: Get repository code
       uses: actions/checkout@v6
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        key: node-modules-${{hashFiles('**/package-lock.json')}}
     - name: Install dependencies
       run: npm ci
     - name: npm run test
@@ -27,6 +30,11 @@ jobs:
     steps:
     - name: Get repository code
       uses: actions/checkout@v6
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        key: node-modules-${{hashFiles('**/package-lock.json')}}  
     - name: Install dependencies
       run: npm ci
     - name: Lint check
